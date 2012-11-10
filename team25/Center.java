@@ -20,9 +20,13 @@ public class Center extends BasePlayer {
       if (getX() < GOAL_POSITION.getX())
         shoot(GOAL_POSITION, MAX_SHOT_SPEED);
       else
-        skate(posTowardsGoal(), MAX_SPEED);
+        moveTowards(GOAL_POSITION.getX() - 400, 100);
+    } else if (puck.isHeld() && !puck.getHolder().isOpponent()) {
+      moveTowards(1500, 0);
+    } else if (Util.dist(this, puck) < 600) {
+      skate(puck, MAX_SPEED);
     } else {
-      skate(getPuck().getX() / 2, getPuck().getY(), 1000);
+      moveTowards(getPuck().getX() / 2, getPuck().getY());
     }
   }
 }

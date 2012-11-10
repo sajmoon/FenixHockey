@@ -1,6 +1,5 @@
 package team25;
 
-import hockey.api.Position;
 import hockey.api.*;
 
 public abstract class BasePlayer extends Player {
@@ -31,25 +30,34 @@ public abstract class BasePlayer extends Player {
   public void step() {
   }
 
-  public boolean isBehindOwnGoal() {
-    return getX() < 400;
+  public boolean moveTowards(int x, int y) {
+    int dist = (int)Util.dist((double)Math.abs(getX() - x), (double)Math.abs(getY() - y));
+    int speed = MAX_SPEED;
+    if (dist < 400) {
+      turn(getPuck(), MAX_TURN_SPEED);
+      skate(20);
+    } else if (dist < 1000) {
+      speed -= 1000 - dist;
+      skate(x, y, speed - 1000 - dist);
+    }
+    return true;
   }
 
-  protected Position posTowardsGoal() {
-    return new Position(GOAL_POSITION.getX() - 400, GOAL_POSITION.getY());
+  public boolean moveTowards(IObject obj) {
+    return moveTowards(obj.getX(), obj.getY());
   }
 
 
     public void moveToDefendingArea() {
-      skate(DEFENDING_POSITION, MAX_SPEED);
+      moveTowards(DEFENDING_POSITION);
     }
 
     public void moveToShootingArea() {
-      skate(SHOOTING_POSITION, MAX_SPEED);
+      moveTowards(SHOOTING_POSITION);
     }
 
     public void moveToAttackingMiddleArea() {
-      skate(ATTACKING_MIDDLE_POSITION, MAX_SPEED);
+      moveTowards(ATTACKING_MIDDLE_POSITION);
     }
             
     public boolean puckInForwardArea(IPuck puck) {
