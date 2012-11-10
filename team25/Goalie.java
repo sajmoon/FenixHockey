@@ -11,7 +11,7 @@ public class Goalie extends GoalKeeper {
     public int getNumber() { return 1; }
 
     // Name of the goalie.
-    public String getName() { return "The Goalie"; }
+    public String getName() { return "Bengan"; }
 
     // Left handed goalie
     public boolean isLeftHanded() { return true; }
@@ -27,7 +27,19 @@ public class Goalie extends GoalKeeper {
 
     // Intelligence of goalie.
     public void step() {
-	skate(GOAL_POSITION.getX() + 50, GOAL_POSITION.getY(), 200);
-	turn(getPuck(), MAX_TURN_SPEED);
+	    
+      int x = GOAL_POSITION.getX();
+      int y = GOAL_POSITION.getY();
+
+      int dX = x - getPuck().getX();
+      int dY = y - getPuck().getY();
+
+      int ang = getPuck().getHeading();
+
+      
+      skate(GOAL_POSITION.getX(), GOAL_POSITION.getY(), 200);
+	    
+      //Face the puck
+      turn(getPuck(), MAX_TURN_SPEED);
     }
 }

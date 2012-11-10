@@ -10,7 +10,7 @@ public class Team implements ITeam {
     public String getShortName() { return "___"; }
 
     // Team Name
-    public String getTeamName() { return "Team Template"; }
+    public String getTeamName() { return "Fenixorden"; }
 
     // Team color; body color
     public Color getTeamColor() { return Color.RED; }
