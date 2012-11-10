@@ -29,22 +29,29 @@ public class Goalie extends GoalKeeper {
     // Intelligence of goalie.
     public void step() {
 	    
+      int CAGE_RADIUS = 100;
       double ang = Util.datan2(getPuck(), GOAL_POSITION);
 
       ang = Util.clamp(-90,ang, 90);
       
       double heading = getTargetHeading();
 
-      double newX = GOAL_POSITION.getX() + Math.cos(ang)*150;
+      double newX = Util.clamp(GOAL_POSITION.getX() + 50, GOAL_POSITION.getX() + Math.cos(ang)*CAGE_RADIUS, 0);
 
-      double newY = GOAL_POSITION.getY() + Math.sin(ang)*150;
+      double newY = GOAL_POSITION.getY() + Math.sin(ang)*CAGE_RADIUS;
+
+      if (newY > 0 && getPuck().getY() < 0) {
+        newY = -newY;
+      } else if (newY < 0 && getPuck().getY() > 0) {
+        newY = -newY;
+      }
       
-      setMessage(Double.toString(newX) + " " + Double.toString(newY) + " " + Double.toString(ang));
-      
-      skate((int)newX, (int)newY, 50);
+      skate((int)newX, (int)newY, 100);
 	    
       //Face the puck
       turn(getPuck(), MAX_TURN_SPEED);
+      
+      setMessage(Double.toString(newX).substring(0,5) + " " + Double.toString(newY).substring(0, 5) + " " + Double.toString(ang));
     }
 
     private int distance(int x1, int y1, int x2, int y2) {
