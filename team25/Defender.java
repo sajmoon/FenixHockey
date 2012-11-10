@@ -23,6 +23,11 @@ public class Defender extends BasePlayer {
 
     // Defender intelligence
     public void step() {
+      if (hasPuck()) {
+        shoot(getPlayer(5), MAX_SHOT_SPEED);
+        return;
+      }
+
       IPuck puck = getPuck();
       if (puck.isHeld()) {
         IPlayer holder = puck.getHolder();
