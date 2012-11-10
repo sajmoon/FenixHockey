@@ -88,6 +88,21 @@ public abstract class BasePlayer extends Player {
       return false;
     }
 
+    public boolean puckInAssignedAttackArea(IPuck puck) {
+      if (puckInAttackArea(puck)) {
+        if (getIndex() == 1) {
+          if (puck.getY() < 0 ) {
+            return true;
+          }
+        } else {
+          if (puck.getY() > 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
 
     public void setDebugMessage() {
       String s = "";
