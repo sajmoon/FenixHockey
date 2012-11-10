@@ -8,6 +8,7 @@ public class Goalie extends GoalKeeper {
     // Middle of our own goalcage, on the goal line
     protected static final Position GOAL_POSITION = new Position(-2600, 0);
     protected static final Position OPPONENT_GOAL_POSITION = new Position(2600, 0);
+    private boolean isPenaltyShot;
 
 
     // Number of the goalie.
@@ -20,32 +21,28 @@ public class Goalie extends GoalKeeper {
     public boolean isLeftHanded() { return true; }
 
     // Initiate
-    public void init() { }
+    public void init() { isPenaltyShot = false; }
 
     // Face off
     public void faceOff() { }
 
     // Called when the goalie is about to receive a penalty shot
-    public void penaltyShot() { 
-      if (hasPuck()) {
-	  //Do nothing
-      } else {
-        goalie_movement();
-      }
-    }
+    public void penaltyShot() { isPenaltyShot = true; }
 
     // Intelligence of goalie.
     public void step() {
 	    
-      if (hasPuck()) {
-	  //shoot(OPPONENT_GOAL_POSITION, MAX_SHOT_SPEED);
-      } else {
+      if (hasPuck() && ! isPenaltyShot) {
+	  shoot(OPPONENT_GOAL_POSITION, MAX_SHOT_SPEED);
+      } else if (hasPuck() && isPenaltyShot) {
+	  // Do nothing
+      }else {
         goalie_movement();
       }
     }
 
     private void goalie_movement() {
-      int CAGE_RADIUS = 80;
+      int CAGE_RADIUS = 75;
       double ang = Util.datan2(getPuck(), GOAL_POSITION);
 
       ang = Util.clamp(-90,ang, 90);
@@ -55,8 +52,10 @@ public class Goalie extends GoalKeeper {
       double newX = Util.clamp(GOAL_POSITION.getX() + 50, GOAL_POSITION.getX() + Math.cos(ang)*CAGE_RADIUS, 0);
 
       double newY = GOAL_POSITION.getY() + Math.sin(ang)*CAGE_RADIUS;
-
-      if (newY > 0 && getPuck().getY() < 0) {
+      
+      if (Math.abs(getX()-getPuck().getX()) > 1000) {
+	  newY = 0;
+      } else if (newY > 0 && getPuck().getY() < 0) {
         newY = -newY;
       } else if (newY < 0 && getPuck().getY() > 0) {
         newY = -newY;
