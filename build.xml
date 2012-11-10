@@ -1,0 +1,17 @@
+<project name="FenixHockey" default="compile" basedir=".">
+  <property name="src.dir" location="team25"/>
+  <property name="classes.dir" location="bin"/>
+	
+	<target name="run" depends="compile">
+		<java classname="hockey.Main">
+			<classpath path="hockey.jar;bin"/>
+		</java>
+	</target>
+
+  <target name="compile" description="compile the source">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" encoding="utf8" includeantruntime="false">
+			<classpath path="hockey.jar;bin"/>
+			<compilerarg value="-Xlint:none"/>
+		</javac>
+  </target>
+</project>
