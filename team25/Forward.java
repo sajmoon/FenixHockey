@@ -37,9 +37,9 @@ public class Forward extends BasePlayer {
         }
         
         if (back1.getX() > 867) {
-          shoot(prioBack, 4444);
+          shoot(prioBack, MAX_SHOT_SPEED / 2);
         } else if (center.getX() > 867) {
-          shoot(center, 4444); // pass center player
+          shoot(center, MAX_SHOT_SPEED / 2); // pass center player
         }
       }
       else if (getX() > GOAL_POSITION.getX()) {
@@ -59,12 +59,21 @@ public class Forward extends BasePlayer {
         /* skate(getPuck(), MAX_SPEED); // get the puck */
       } else {
         // Not held
+        if (getX() > 867) {
+          if (!puckInForwardArea(puck)) {
+            moveToAttackingMiddleArea();
+            return;
+          }
+        }
+
         if (puckInAssignedAttackArea(puck)) {
           // Den är på våran sida.
+          skate(puck, MAX_SPEED);
         } else {
           // inte vårt problem
         }
       }
+      skate(puck, MAX_SPEED);
     }
   }
 }
