@@ -60,7 +60,6 @@ public class Goalie extends GoalKeeper {
       //Face the puck
       turn(getPuck(), MAX_TURN_SPEED);
       
-      setMessage(Double.toString(newX).substring(0,5) + " " + Double.toString(newY).substring(0, 5) + " " + Double.toString(ang));
     }
 
 }
