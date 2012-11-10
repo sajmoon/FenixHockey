@@ -53,7 +53,7 @@ public class Goalie extends GoalKeeper {
 
       double newY = GOAL_POSITION.getY() + Math.sin(ang)*CAGE_RADIUS;
       
-      if (Math.abs(getX()-getPuck().getX()) > 1000) {
+      if (Math.abs(getX()-getPuck().getX()) > 3000) {
 	  newY = 0;
       } else if (newY > 0 && getPuck().getY() < 0) {
         newY = -newY;
