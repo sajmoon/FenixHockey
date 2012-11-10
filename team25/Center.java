@@ -9,9 +9,13 @@ public class Center extends BasePlayer {
 
   // Center player's intelligence
   public void step() {
-    if (hasPuck())
-      skate(GOAL_POSITION, MAX_SPEED);
-    else
+    if (hasPuck()) {
+      if (getX() < GOAL_POSITION.getX())
+        shoot(GOAL_POSITION, MAX_SHOT_SPEED);
+      else
+        skate(posTowardsGoal(), MAX_SPEED);
+    } else {
       skate(0, getPuck().getY(), 1000);
+    }
   }
 }

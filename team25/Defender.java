@@ -24,7 +24,11 @@ public class Defender extends BasePlayer {
     // Defender intelligence
     public void step() {
       if (hasPuck()) {
-        shoot(getPlayer(5), MAX_SHOT_SPEED);
+        IPlayer center = getPlayer(5);
+        if (center.getX() > getX())
+          shoot(getPlayer(5), MAX_SHOT_SPEED);
+        else
+          shoot(GOAL_POSITION, MAX_SHOT_SPEED);
         return;
       }
 

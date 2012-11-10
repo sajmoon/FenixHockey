@@ -25,4 +25,13 @@ public abstract class BasePlayer extends Player {
   // Player intelligence goes here
   public void step() {
   }
+
+  public boolean isBehindOwnGoal() {
+    return getX() < 400;
+  }
+
+  protected Position posTowardsGoal() {
+    return new Position(GOAL_POSITION.getX() - 400, GOAL_POSITION.getY());
+  }
+
 }
