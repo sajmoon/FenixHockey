@@ -39,8 +39,9 @@ public class Defender extends BasePlayer {
           skate(puck.getHolder(), MAX_SPEED);
         else
           skate(puck.getX(), normalY(), MAX_SPEED);
-      }
-      else {
+      } else if (puck.getX() < -1000) {
+        skate(puck, MAX_SPEED);
+      } else {
         skate(-2000, normalY(), 1000);
       }
     }
