@@ -2,6 +2,7 @@ package team25;
 
 import hockey.api.GoalKeeper;
 import hockey.api.Position;
+import hockey.api.Util;
 
 public class Goalie extends GoalKeeper {
     // Middle of our own goalcage, on the goal line
@@ -28,18 +29,26 @@ public class Goalie extends GoalKeeper {
     // Intelligence of goalie.
     public void step() {
 	    
-      int x = GOAL_POSITION.getX();
-      int y = GOAL_POSITION.getY();
+      double ang = Util.datan2(getPuck(), GOAL_POSITION);
 
-      int dX = x - getPuck().getX();
-      int dY = y - getPuck().getY();
-
-      int ang = getPuck().getHeading();
-
+      ang = Util.clamp(-90,ang, 90);
       
-      skate(GOAL_POSITION.getX(), GOAL_POSITION.getY(), 200);
+      double heading = getTargetHeading();
+
+      double newX = GOAL_POSITION.getX() + Math.cos(ang)*150;
+
+      double newY = GOAL_POSITION.getY() + Math.sin(ang)*150;
+      
+      setMessage(Double.toString(newX) + " " + Double.toString(newY) + " " + Double.toString(ang));
+      
+      skate((int)newX, (int)newY, 50);
 	    
       //Face the puck
       turn(getPuck(), MAX_TURN_SPEED);
+    }
+
+    private int distance(int x1, int y1, int x2, int y2) {
+      int returnValue = Util.sqr(x1 - x2) + Util.sqr(y1 - y2);
+      return returnValue;
     }
 }
