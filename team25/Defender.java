@@ -42,7 +42,7 @@ public class Defender extends BasePlayer {
           shoot(GOAL_POSITION, MAX_SHOT_SPEED);
         } else if (center.getX() > getX()) {
           shoot(getPlayer(5), MAX_SHOT_SPEED);
-        }
+        } 
         return;
       }
 
