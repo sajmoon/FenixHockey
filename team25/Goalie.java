@@ -59,7 +59,5 @@ public class Goalie extends GoalKeeper {
 	    
       //Face the puck
       turn(getPuck(), MAX_TURN_SPEED);
-      
     }
-
 }

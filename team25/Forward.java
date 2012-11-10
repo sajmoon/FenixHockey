@@ -17,7 +17,8 @@ public class Forward extends BasePlayer {
   public void step() {
     if (hasPuck()) {
       IPlayer center = getPlayer(5);
-      if (getX() < center.getX() && getX() < 1000)
+      //if (getX() < center.getX() && getX() < 1000)
+      if (getX() > 2600 || (getX() < center.getX() && getX() < 800))
         shoot(getPlayer(5), 4444); // pass center player
       else if (getX() > GOAL_POSITION.getX())
         skate(GOAL_POSITION.getX() - 400, 50, MAX_SPEED);
