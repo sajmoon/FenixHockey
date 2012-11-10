@@ -59,7 +59,7 @@ public class Forward extends BasePlayer {
         /* skate(getPuck(), MAX_SPEED); // get the puck */
       } else {
         // Not held
-        if (puckInAssignedAttackArea) {
+        if (puckInAssignedAttackArea(puck)) {
           // Den är på våran sida.
         } else {
           // inte vårt problem
