@@ -18,7 +18,7 @@ public class Defender extends BasePlayer {
     }
 
     private int normalY() {
-      return (getIndex() == 1) ? -10000 : 10000;
+      return (getIndex() == 1) ? -1000 : 1000;
     }
 
     // Defender intelligence
@@ -41,7 +41,7 @@ public class Defender extends BasePlayer {
           skate(puck.getX(), normalY(), MAX_SPEED);
       }
       else {
-        skate(-20000, normalY(), 1000);
+        skate(-2000, normalY(), 1000);
       }
     }
 }
