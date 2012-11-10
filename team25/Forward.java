@@ -1,6 +1,12 @@
 package team25;
 
+import hockey.api.*;
+
 public class Forward extends BasePlayer {
+  public void init() {
+    setAimOnStick(true);
+  }
+
   // Number of forward
   public int getNumber() { return 15; }
 
@@ -10,7 +16,11 @@ public class Forward extends BasePlayer {
   // Intelligence of forward
   public void step() {
     if (hasPuck()) {
-      shoot(getPlayer(5), 4444); // pass center player
+      IPlayer center = getPlayer(5);
+      if (getX() < center.getX() && getX() < 1000)
+        shoot(getPlayer(5), 4444); // pass center player
+      else
+        shoot(GOAL_POSITION, MAX_SHOT_SPEED);
     }
     else {
       skate(getPuck(), MAX_SPEED); // get the puck
