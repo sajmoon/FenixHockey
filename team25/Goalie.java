@@ -9,11 +9,12 @@ public class Goalie extends GoalKeeper {
     protected static final Position GOAL_POSITION = new Position(-2600, 0);
     protected static final Position OPPONENT_GOAL_POSITION = new Position(2600, 0);
 
+
     // Number of the goalie.
     public int getNumber() { return 1; }
 
     // Name of the goalie.
-    public String getName() { return "Bengan"; }
+    public String getName() { return "Bobben"; }
 
     // Left handed goalie
     public boolean isLeftHanded() { return true; }
@@ -25,20 +26,26 @@ public class Goalie extends GoalKeeper {
     public void faceOff() { }
 
     // Called when the goalie is about to receive a penalty shot
-    public void penaltyShot() { }
+    public void penaltyShot() { 
+      if (hasPuck()) {
+	  //Do nothing
+      } else {
+        goalie_movement();
+      }
+    }
 
     // Intelligence of goalie.
     public void step() {
 	    
       if (hasPuck()) {
-        shoot(OPPONENT_GOAL_POSITION, MAX_SHOT_SPEED);
+	  //shoot(OPPONENT_GOAL_POSITION, MAX_SHOT_SPEED);
       } else {
         goalie_movement();
       }
     }
 
     private void goalie_movement() {
-      int CAGE_RADIUS = 100;
+      int CAGE_RADIUS = 80;
       double ang = Util.datan2(getPuck(), GOAL_POSITION);
 
       ang = Util.clamp(-90,ang, 90);
