@@ -5,6 +5,15 @@ import hockey.api.*;
 public class Forward extends BasePlayer {
   public void init() {
     setAimOnStick(true);
+    SHOOTING_POSITION = new Position(1000, normalY());
+    DEFENDING_POSITION = new Position(-1000, normalY());
+    DEFENDING_MIDDLE_POSITION = new Position(-700, normalY());
+    ATTACKING_MIDDLE_POSITION = new Position(700, normalY());
+  }
+
+
+  private int normalY() {
+    return (getIndex() == 3) ? -700 : 700;
   }
 
   // Number of forward
@@ -12,7 +21,7 @@ public class Forward extends BasePlayer {
 
   // Name of forward
   public String getName() {
-    if (getIndex() == 1) {
+    if (getIndex() == 3) {
       return "Boooob";
     } else {
      return "Halvberg"; 
@@ -37,14 +46,16 @@ public class Forward extends BasePlayer {
         }
         
         if (back1.getX() > 867) {
-          shoot(prioBack, MAX_SHOT_SPEED / 2);
+          shoot(prioBack, MAX_SHOT_SPEED );
         } else if (center.getX() > 867) {
-          shoot(center, MAX_SHOT_SPEED / 2); // pass center player
+          shoot(center, MAX_SHOT_SPEED); // pass center player
         }
       }
       else if (getX() > GOAL_POSITION.getX()) {
         skate(GOAL_POSITION.getX() - 400, 50, MAX_SPEED);
-      } else {
+      } else if ( getX() < 876) {
+        skate(GOAL_POSITION, MAX_SPEED);
+      }else {
         shoot(GOAL_POSITION, MAX_SHOT_SPEED);
       }
     }
@@ -52,16 +63,19 @@ public class Forward extends BasePlayer {
       if (puck.isHeld()) {
         IPlayer holder = puck.getHolder();
         if (holder.isOpponent()) {
-
+          if (puckInAssignedAttackArea(puck)) {
+            skate(getPuck(), MAX_SPEED); // get the puck
+          } else {
+            moveTowards(DEFENDING_MIDDLE_POSITION);
+          }
         } else {
           //Vi har den
         }
-        /* skate(getPuck(), MAX_SPEED); // get the puck */
       } else {
         // Not held
         if (getX() > 867) {
           if (!puckInForwardArea(puck)) {
-            moveToAttackingMiddleArea();
+            moveTowards(DEFENDING_MIDDLE_POSITION);
             return;
           }
         }
@@ -76,4 +90,36 @@ public class Forward extends BasePlayer {
       skate(puck, MAX_SPEED);
     }
   }
+
+
+    public boolean puckInAssignedDefenderArea(IPuck puck) {
+      if (puckInDefenderArea(puck)) {
+        if (getIndex() == 3) {
+          if (puck.getY() < 0 ) {
+            return true;
+          }
+        } else {
+          if (puck.getY() > 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    public boolean puckInAssignedAttackArea(IPuck puck) {
+      if (puckInForwardArea(puck)) {
+        if (getIndex() == 3) {
+          if (puck.getY() < 0 ) {
+            return true;
+          }
+        } else {
+          if (puck.getY() > 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
 }

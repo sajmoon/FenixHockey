@@ -73,4 +73,36 @@ public class Defender extends BasePlayer {
       }
     }
   }
+
+
+    public boolean puckInAssignedDefenderArea(IPuck puck) {
+      if (puckInDefenderArea(puck)) {
+        if (getIndex() == 1) {
+          if (puck.getY() < 0 ) {
+            return true;
+          }
+        } else {
+          if (puck.getY() > 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    public boolean puckInAssignedAttackArea(IPuck puck) {
+      if (puckInForwardArea(puck)) {
+        if (getIndex() == 1) {
+          if (puck.getY() < 0 ) {
+            return true;
+          }
+        } else {
+          if (puck.getY() > 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
 }
