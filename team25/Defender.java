@@ -1,8 +1,10 @@
 package team25;
 
+import hockey.api.*;
+
 public class Defender extends BasePlayer {
     // Number of defender
-    public int getNumber() { return 10; }
+    public int getNumber() { return getIndex() == 1 ? 1 : 2; }
 
     // Name of defender
     public String getName() { return "Defender"; }
@@ -12,17 +14,25 @@ public class Defender extends BasePlayer {
 
     // Initiate
     public void init() {
-	setAimOnStick(false);
+      setAimOnStick(false);
+    }
+
+    private int normalY() {
+      return (getIndex() == 1) ? -10000 : 10000;
     }
 
     // Defender intelligence
     public void step() {
-	if (getPuck().isHeld())
-	    skate(getPuck().getHolder(), MAX_SPEED);
-	else
-	    if (getIndex() == 1)
-		skate(-20000, -10000, 1000);
-	    else
-		skate(-20000, 10000, 1000);
+      IPuck puck = getPuck();
+      if (puck.isHeld()) {
+        IPlayer holder = puck.getHolder();
+        if (holder.isOpponent())
+          skate(puck.getHolder(), MAX_SPEED);
+        else
+          skate(puck.getX(), normalY(), MAX_SPEED);
+      }
+      else {
+        skate(-20000, normalY(), 1000);
+      }
     }
 }

@@ -1,7 +1,7 @@
 run: compile
 	java -jar hockey.jar
 
-compile: deps
+compile:
 	javac -cp .:hockey.jar team25/*.java
 
 deps:

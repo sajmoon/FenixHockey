@@ -3,7 +3,7 @@ package team25;
 import hockey.api.Position;
 import hockey.api.Player;
 
-public class BasePlayer extends Player {
+public abstract class BasePlayer extends Player {
   // The middle of the opponents goal, on the goal line
   protected static final Position GOAL_POSITION = new Position(2600, 0);
 
@@ -24,13 +24,5 @@ public class BasePlayer extends Player {
 
   // Player intelligence goes here
   public void step() {
-  }
-
-  public String getName() {
-    return "Playa";
-  }
-
-  public int getNumber() {
-    return 2;
   }
 }
