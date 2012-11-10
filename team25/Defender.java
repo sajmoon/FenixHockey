@@ -7,7 +7,7 @@ public class Defender extends BasePlayer {
     public int getNumber() { return getIndex() == 1 ? 1 : 2; }
     
     Position SHOOTING_POSITION = new Position(1000, 0);
-    Position DEFENDING_POSITION = new Position(1000, 0);
+    Position DEFENDING_POSITION = new Position(-1000, 0);
 
     // Name of defender
     public String getName() { 
@@ -25,7 +25,7 @@ public class Defender extends BasePlayer {
     public void init() {
       setAimOnStick(false);
       SHOOTING_POSITION = new Position(1000, normalY());
-      SHOOTING_POSITION = new Position(-1000, normalY());
+      DEFENDING_POSITION = new Position(-1000, normalY());
     }
 
     private int normalY() {
@@ -34,6 +34,7 @@ public class Defender extends BasePlayer {
 
     // Defender intelligence
     public void step() {
+
       if (hasPuck()) {
         IPlayer center = getPlayer(5);
         if (center.getX() > getX())
@@ -55,19 +56,20 @@ public class Defender extends BasePlayer {
           // Vi håller den.
           if (puckInForwardArea(puck)) {
             moveToShootingArea();
+          } else if (puckInMiddleArea(puck)) {
+            
           } else {
-            skate(puck.getX(), normalY(), MAX_SPEED);
+            /* skate(puck.getX(), normalY(), MAX_SPEED); */
           }
         }
       } else {
-        if (puck.getX() < -1000) {
+        setDebugMessage();
+        if (puckInDefenderArea(puck)) {
           skate(puck, MAX_SPEED);
         } else if(puckInForwardArea(puck)) {
           moveToShootingArea();
         } else if (puckInMiddleArea(puck)) {
           moveToDefendingArea();
-        } else {
-          skate(-2000, normalY(), 1000);
         }
       }
     }
@@ -99,6 +101,28 @@ public class Defender extends BasePlayer {
         return true;
       }
       return false;
+    }
+
+
+    private void setDebugMessage() {
+      String s = "";
+      if (puckInForwardArea(getPuck())) {
+        s = s + "Puck in forward area ";
+      }
+
+      if (puckInMiddleArea(getPuck())) {
+        s = s + "Puck in middle area ";
+      }
+
+      if (puckInDefenderArea(getPuck())) {
+        s = s + "Puck in defender area ";
+      }
+
+      if (getPuck().isHeld()) {
+        s = s + "Held";
+      }
+
+      setMessage(s);
     }
 
 }
