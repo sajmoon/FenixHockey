@@ -8,6 +8,8 @@ public class Defender extends BasePlayer {
     
     Position SHOOTING_POSITION = new Position(1000, 0);
     Position DEFENDING_POSITION = new Position(-1000, 0);
+    Position DEFENDING_MIDDLE_POSITION = new Position(-700, 0);
+    Position ATTACKING_MIDDLE_POSITION = new Position(700, 0);
 
     // Name of defender
     public String getName() { 
@@ -26,6 +28,8 @@ public class Defender extends BasePlayer {
       setAimOnStick(false);
       SHOOTING_POSITION = new Position(1000, normalY());
       DEFENDING_POSITION = new Position(-1000, normalY());
+      Position DEFENDING_MIDDLE_POSITION = new Position(-700, normalY());
+      Position ATTACKING_MIDDLE_POSITION = new Position(700, normalY());
     }
 
     private int normalY() {
@@ -34,7 +38,7 @@ public class Defender extends BasePlayer {
 
     // Defender intelligence
     public void step() {
-
+      setDebugMessage();
       if (hasPuck()) {
         IPlayer center = getPlayer(5);
         if (center.getX() > getX())
@@ -57,14 +61,13 @@ public class Defender extends BasePlayer {
           if (puckInForwardArea(puck)) {
             moveToShootingArea();
           } else if (puckInMiddleArea(puck)) {
-            
+            moveToAttackingMiddleArea();
           } else {
             /* skate(puck.getX(), normalY(), MAX_SPEED); */
           }
         }
       } else {
-        setDebugMessage();
-        if (puckInDefenderArea(puck)) {
+        if (puckInAssignedDefenderArea(puck)) {
           skate(puck, MAX_SPEED);
         } else if(puckInForwardArea(puck)) {
           moveToShootingArea();
@@ -82,6 +85,10 @@ public class Defender extends BasePlayer {
       skate(SHOOTING_POSITION, MAX_SPEED);
     }
 
+    private void moveToAttackingMiddleArea() {
+      skate(ATTACKING_MIDDLE_POSITION, MAX_SPEED);
+    }
+            
     private boolean puckInForwardArea(IPuck puck) {
       if (puck.getX() > 867) {
         return true;
@@ -99,6 +106,21 @@ public class Defender extends BasePlayer {
     private boolean puckInDefenderArea(IPuck puck) {
       if (puck.getX() < -867) {
         return true;
+      }
+      return false;
+    }
+
+    private boolean puckInAssignedDefenderArea(IPuck puck) {
+      if (puckInDefenderArea(puck)) {
+        if (getIndex() == 1) {
+          if (puck.getY() < 0 ) {
+            return true;
+          }
+        } else {
+          if (puck.getY() > 0) {
+            return true;
+          }
+        }
       }
       return false;
     }
