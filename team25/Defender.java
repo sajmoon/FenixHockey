@@ -6,10 +6,6 @@ public class Defender extends BasePlayer {
     // Number of defender
     public int getNumber() { return getIndex() == 1 ? 1 : 2; }
     
-    Position SHOOTING_POSITION = new Position(1000, 0);
-    Position DEFENDING_POSITION = new Position(-1000, 0);
-    Position DEFENDING_MIDDLE_POSITION = new Position(-700, 0);
-    Position ATTACKING_MIDDLE_POSITION = new Position(700, 0);
 
     // Name of defender
     public String getName() { 
@@ -28,8 +24,8 @@ public class Defender extends BasePlayer {
       setAimOnStick(false);
       SHOOTING_POSITION = new Position(1000, normalY());
       DEFENDING_POSITION = new Position(-1000, normalY());
-      Position DEFENDING_MIDDLE_POSITION = new Position(-700, normalY());
-      Position ATTACKING_MIDDLE_POSITION = new Position(700, normalY());
+      DEFENDING_MIDDLE_POSITION = new Position(-700, normalY());
+      ATTACKING_MIDDLE_POSITION = new Position(700, normalY());
     }
 
     private int normalY() {
