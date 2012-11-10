@@ -18,7 +18,7 @@ public class Defender extends BasePlayer {
     }
 
     private int normalY() {
-      return (getIndex() == 1) ? -1000 : 1000;
+      return (getIndex() == 1) ? -700 : 700;
     }
 
     // Defender intelligence
