@@ -39,16 +39,17 @@ public class Defender extends BasePlayer {
     // Defender intelligence
     public void step() {
       setDebugMessage();
+      IPuck puck = getPuck();
       if (hasPuck()) {
         IPlayer center = getPlayer(5);
-        if (center.getX() > getX())
-          shoot(getPlayer(5), MAX_SHOT_SPEED);
-        else
+        if (puckInForwardArea(puck)) {
           shoot(GOAL_POSITION, MAX_SHOT_SPEED);
+        } else if (center.getX() > getX()) {
+          shoot(getPlayer(5), MAX_SHOT_SPEED);
+        }
         return;
       }
 
-      IPuck puck = getPuck();
       if (puck.isHeld()) {
         IPlayer holder = puck.getHolder();
         if (holder.isOpponent()) {
@@ -75,76 +76,6 @@ public class Defender extends BasePlayer {
           moveToDefendingArea();
         }
       }
-    }
-
-    private void moveToDefendingArea() {
-      skate(DEFENDING_POSITION, MAX_SPEED);
-    }
-
-    private void moveToShootingArea() {
-      skate(SHOOTING_POSITION, MAX_SPEED);
-    }
-
-    private void moveToAttackingMiddleArea() {
-      skate(ATTACKING_MIDDLE_POSITION, MAX_SPEED);
-    }
-            
-    private boolean puckInForwardArea(IPuck puck) {
-      if (puck.getX() > 867) {
-        return true;
-      } 
-      return false;
-    }
-
-    private boolean puckInMiddleArea(IPuck puck) {
-      if (puck.getX() > -867 && puck.getX() < 867) {
-        return true;
-      }
-      return false;
-    }
-
-    private boolean puckInDefenderArea(IPuck puck) {
-      if (puck.getX() < -867) {
-        return true;
-      }
-      return false;
-    }
-
-    private boolean puckInAssignedDefenderArea(IPuck puck) {
-      if (puckInDefenderArea(puck)) {
-        if (getIndex() == 1) {
-          if (puck.getY() < 0 ) {
-            return true;
-          }
-        } else {
-          if (puck.getY() > 0) {
-            return true;
-          }
-        }
-      }
-      return false;
-    }
-
-
-    private void setDebugMessage() {
-      String s = "";
-      if (puckInForwardArea(getPuck())) {
-        s = s + "Puck in forward area ";
-      }
-
-      if (puckInMiddleArea(getPuck())) {
-        s = s + "Puck in middle area ";
-      }
-
-      if (puckInDefenderArea(getPuck())) {
-        s = s + "Puck in defender area ";
-      }
-
-      if (getPuck().isHeld()) {
-        s = s + "Held";
-      }
-
-      setMessage(s);
     }
 
 }
