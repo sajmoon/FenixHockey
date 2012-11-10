@@ -38,7 +38,7 @@ class Bullie extends Player {
 	    skate(getPuck(), 1000); // Go for puck
 	else {
 	    IPlayer best = null;
-	    for (int i = 0; i < 12; ++i) { // Gå through all players
+	    for (int i = 0; i < 12; ++i) { // Go through all players
 		IPlayer cur = getPlayer(i);
 
 		if (cur.isOpponent() && // If player is opponent...
