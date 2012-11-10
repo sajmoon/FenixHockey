@@ -7,6 +7,7 @@ import hockey.api.Util;
 public class Goalie extends GoalKeeper {
     // Middle of our own goalcage, on the goal line
     protected static final Position GOAL_POSITION = new Position(-2600, 0);
+    protected static final Position OPPONENT_GOAL_POSITION = new Position(2600, 0);
 
     // Number of the goalie.
     public int getNumber() { return 1; }
@@ -29,6 +30,14 @@ public class Goalie extends GoalKeeper {
     // Intelligence of goalie.
     public void step() {
 	    
+      if (hasPuck()) {
+        shoot(OPPONENT_GOAL_POSITION, MAX_SHOT_SPEED);
+      } else {
+        goalie_movement();
+      }
+    }
+
+    private void goalie_movement() {
       int CAGE_RADIUS = 100;
       double ang = Util.datan2(getPuck(), GOAL_POSITION);
 
@@ -54,8 +63,4 @@ public class Goalie extends GoalKeeper {
       setMessage(Double.toString(newX).substring(0,5) + " " + Double.toString(newY).substring(0, 5) + " " + Double.toString(ang));
     }
 
-    private int distance(int x1, int y1, int x2, int y2) {
-      int returnValue = Util.sqr(x1 - x2) + Util.sqr(y1 - y2);
-      return returnValue;
-    }
 }
